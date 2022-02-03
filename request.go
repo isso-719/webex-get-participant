@@ -17,36 +17,30 @@ func main() {
         fmt.Println(err)
     }
 
-	// Webex Integration API Key
+	// webex Integration API Key
 	apiKey := os.Getenv("WEBEX_API_KEY")
 
-	// Webex target meeting number
+	// webex target meeting number
 	meetingNum := os.Getenv("WEBEX_MEETING_NUMBER")
 
-	// Make a GET request to a web server
-	// body
-	// Content-Type: application/json
-	// Authorization: Bearer MjZkYzYwNmUtM2UxZC00YTVlLTk2MDctMWFkNWViMGE1MTcxYzQ0Y2I2MzYtOTEz_PF84_40c5c1ec-675d-4892-8f53-cf458f994ae6
-	// target
-	// https://webexapis.com/v1/meetings?meetingNumber=789679268
-
-	// Create a new request
+	// make a GET request to a web server
+	// create a new request
 	req, err := http.NewRequest("GET", "https://webexapis.com/v1/meetings?meetingNumber=" + meetingNum, nil)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	// Add a header
+	// add a header
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", "Bearer " + apiKey)
 
-	// Send the request
+	// send the request
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	// Read the response
+	// read the response
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
@@ -57,31 +51,24 @@ func main() {
 	json.Unmarshal(body, &bodyMap)
 	meetingId := bodyMap["items"].([]interface{})[0].(map[string]interface{})["id"].(string)
 
-	// Close the response
+	// close the response
 	res.Body.Close()
 
 
-	// Make a GET request to a web server
-	// body
-	// Content-Type: application/json
-	// meetingId = meetingId
-	// Authorization: Bearer MjZkYzYwNmUtM2UxZC00YTVlLTk2MDctMWFkNWViMGE1MTcxYzQ0Y2I2MzYtOTEz_PF84_40c5c1ec-675d-4892-8f53-cf458f994ae6
-	// target
-	// https://webexapis.com/v1/meetings?meetingNumber=789679268
-
-	// Create a new request
+	// make a GET request to a web server
+	// create a new request
 	req, err = http.NewRequest("GET", "https://webexapis.com/v1/meetingParticipants?meetingId=" + meetingId, nil)
 
-	// Add a header
+	// add a header
 	req.Header.Add("Authorization", "Bearer " + apiKey)
 
-	// Send the request
+	// send the request
 	res, err = http.DefaultClient.Do(req)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	// Read the response
+	// read the response
 	body, err = ioutil.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
@@ -95,6 +82,6 @@ func main() {
 		fmt.Println(email)
 	}
 
-	// Close the response
+	// close the response
 	res.Body.Close()
 }
