@@ -20,6 +20,9 @@ func main() {
 	// Webex Integration API Key
 	apiKey := os.Getenv("WEBEX_API_KEY")
 
+	// Webex target meeting number
+	meetingNum := os.Getenv("WEBEX_MEETING_NUMBER")
+
 	// Make a GET request to a web server
 	// body
 	// Content-Type: application/json
@@ -28,7 +31,7 @@ func main() {
 	// https://webexapis.com/v1/meetings?meetingNumber=789679268
 
 	// Create a new request
-	req, err := http.NewRequest("GET", "https://webexapis.com/v1/meetings?meetingNumber=780594896", nil)
+	req, err := http.NewRequest("GET", "https://webexapis.com/v1/meetings?meetingNumber=" + meetingNum, nil)
 	if err != nil {
 		fmt.Println(err)
 	}
